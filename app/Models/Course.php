@@ -45,13 +45,13 @@ class Course extends Model
 
     public function getLastSeenLessonId()
     {
-        $last_iteration_lesson_object = $this->lessons()->first();
+        $last_iteration_lesson_object = $this->lessons()->orderBy('section_id')->orderBy('order')->first();
         $last_iteration_lesson_object_id = $last_iteration_lesson_object->id;
 
         if(empty($last_iteration_lesson_object)) return 0;
 
-        foreach ($this->lessons as $lesson) {
-            if($lesson->status != $last_iteration_lesson_object->status) return $last_iteration_lesson_object->id;
+        foreach ($this->lessons()->orderBy('section_id')->orderBy('order')->get() as $lesson) {
+            if($lesson->status != $last_iteration_lesson_object->status) return $lesson->id;
             $last_iteration_lesson_object = $lesson;
         }
 

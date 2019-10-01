@@ -166,11 +166,15 @@
                         </a>
                     </li>
 						<li>
-								<a href="#">
+                                @role('coordinator')
+                                    <a href="{{route('en.coordinator.classrooms.index')}}">
+                                @elseif('employee')
+                                    <a href="{{route('en.employee.classrooms.index')}}">
+                                @endrole
 
 									<svg class="olymp-albums-icon"><use xlink:href="{{asset('assets/')}}/svg-icons/sprites/icons.svg#olymp-albums-icon"></use></svg>
 
-									<span>My classRoom</span>
+									<span>My Classrooms</span>
 								</a>
 							</li>
 

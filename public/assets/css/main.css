@@ -9989,7 +9989,7 @@ ol ol li {
     background: rgba(43, 45, 59, 0.8); }
 
 .table {
-  display: table; 
+  display: table;
 }
 
 .inline-items > * {
@@ -16108,15 +16108,16 @@ div.mejs-speed-button {
   top: 0;
   left: 0;
   height: 100%;
- 
+
   z-index: -2;
   background: #39A9FF;
 }
 .ui-accordion-header:nth-of-type(1):before {
-  width: 40%;
+  width: 100%;
+  /* width: 40%; */
 }
 .ui-accordion-header:nth-of-type(2):before {
-  width: 80%;
+  width: 100%;
 }
 .ui-accordion-header span{
   color:rgb(255, 255, 255);
@@ -16298,6 +16299,17 @@ span.select2-selection{
   margin: 0 !important;
 }
 #tabs ul.white li a{
+  padding: 8px 5px !important;
+}
+.tabs ul.white{
+  background: #fff ;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+.tabs ul.white li{
+  margin: 0 !important;
+}
+.tabs ul.white li a{
   padding: 8px 5px !important;
 }
 #create-quiz div.answer{

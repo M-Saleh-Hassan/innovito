@@ -155,8 +155,11 @@ class LessonController extends Controller
      */
     public function destroy(Lesson $lesson)
     {
-        if($lesson->content->image)unlink($lesson->content->image);
-        if($lesson->content->localvideo_link)unlink($lesson->content->localvideo_link);
+        if($lesson->content)
+        {
+            if($lesson->content->image)unlink($lesson->content->image);
+            if($lesson->content->localvideo_link)unlink($lesson->content->localvideo_link);
+        }
 
         $lesson_id = $lesson->id;
         $course = $lesson->section->course;

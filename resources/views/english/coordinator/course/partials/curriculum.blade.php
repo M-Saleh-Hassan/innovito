@@ -16,7 +16,7 @@
                             <tr class="lesson-content-{{$lesson->id}}">
                                 <td>{{$lesson->title}}</td>
                                 <td class="text-center" style="width:130px">{{$lesson->lessonType->title}}</td>
-                                <td class="text-center" style="width:130px"><a href="#" data-toggle="modal" data-target="#edit-lesson-{{$lesson->id}}"><i class="fas fa-edit" style="margin-right: 5px;"></i>Edit</a></td>
+                                <td class="text-center" style="width:130px"><a href="#" data-toggle="modal" data-target="@if($lesson->lesson_type_id == 8) #edit-quiz-{{$lesson->id}} @else #edit-lesson-{{$lesson->id}} @endif"><i class="fas fa-edit" style="margin-right: 5px;"></i>Edit</a></td>
                                 <td class="text-center" style="width:130px"><a href="#" class="delete-lesson" data-lesson-id="{{$lesson->id}}"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Delete</a></td>
                             </tr>
                             @include('english.coordinator.course.partials.lessons.edit_modal', ['lesson' => $lesson])

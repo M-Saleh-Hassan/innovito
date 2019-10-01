@@ -91,6 +91,9 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
+        return view('english.coordinator.course.show')
+        ->with('course', $course);
+
     }
 
     /**

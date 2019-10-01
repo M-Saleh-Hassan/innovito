@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\english\Employee;
 
-use App\Models\Lesson;
+use App\Models\Classroom;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Auth;
 
-class LessonController extends Controller
+class ClassroomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -43,10 +42,10 @@ class LessonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function show(Lesson $lesson)
+    public function show(Classroom $classroom)
     {
         //
     }
@@ -54,10 +53,10 @@ class LessonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lesson $lesson)
+    public function edit(Classroom $classroom)
     {
         //
     }
@@ -66,10 +65,10 @@ class LessonController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update(Request $request, Classroom $classroom)
     {
         //
     }
@@ -77,35 +76,11 @@ class LessonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lesson $lesson)
+    public function destroy(Classroom $classroom)
     {
         //
-    }
-
-    public function filter(Request $request)
-    {
-        $lesson = Lesson::find($request->lesson_id);
-        $show_done = Auth::user()->lessons()->find($request->lesson_id) ? 0 : 1;
-
-        return response()->json([
-            'lesson' => $lesson->getLessonView(),
-            'show_done' => $show_done
-        ]);
-
-    }
-
-    public function check(Request $request)
-    {
-        $lesson = Lesson::find($request->lesson_id);
-        auth()->user()->lessons()->attach($lesson, ['course_id' => $lesson->section->course->id]);
-
-
-        return response()->json([
-            'lesson' => $lesson->getLessonView()
-        ]);
-
     }
 }

@@ -20,6 +20,9 @@
     @case(7)
         @include('english.coordinator.course.partials.lessons.scorm_edit_form', ['lesson' => $lesson])
         @break
+    @case(8)
+        @include('english.coordinator.course.partials.lessons.quiz_edit_form', ['lesson' => $lesson])
+        @break
     @default
 
 @endswitch

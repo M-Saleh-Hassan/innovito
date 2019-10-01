@@ -1,7 +1,7 @@
 @extends('english.layouts.master')
 
 @section('page_title')
-{{$course->title}}
+{{$classroom->title}}
 @endsection
 
 @section('content')
@@ -13,17 +13,17 @@
 			<div class="ui-block">
 				<div class="top-header">
 					<div class="top-header-thumb">
-						<img src="{{asset('') . $course->image}}" alt="nature" style="">
+						<img src="{{asset('') . $classroom->image}}" alt="nature" style="">
 					</div>
 					<div class="profile-section">
 						<div class="row">
 							<div class="col col-lg-5 col-md-5 col-sm-12 col-12">
 								<ul class="profile-menu">
 									<li>
-										<a target="_blank" href="{{route('en.coordinator.courses.show', [$course->slug])}}" ><i class="fas fa-eye"></i>Preview</a>
+										<a href="#" ><i class="fas fa-eye"></i>Preview</a>
 									</li>
 									<li>
-										<a href="#" data-toggle="modal" data-target="#edit-course"> <i class="fas fa-edit"></i>Edit</a>
+										<a href="#" data-toggle="modal" data-target="#edit-classroom"> <i class="fas fa-edit"></i>Edit</a>
 									</li>
 
 								</ul>
@@ -34,7 +34,7 @@
                                         <a href="#" data-toggle="modal" data-target="#create-survey"><i class="fas fa-file-alt"></i>Add survey</a>
 									</li>
 									<li>
-                                        <a href="#" class="delete-course"><i class="fas fa-trash-alt"></i>Delete</a>
+                                        <a href="#" class="delete-classroom"><i class="fas fa-trash-alt"></i>Delete</a>
 									</li>
 								</ul>
 							</div>
@@ -42,11 +42,11 @@
 
 
 					</div>
-					<div class="top-header-author course-name">
+					<div class="top-header-author classroom-name">
 
 						<div class="author-content">
-							<a href="" class="h4 author-name">{{$course->title}}</a>
-							<div class="country">{{$course->category->title}}</div>
+							<a href="" class="h4 author-name">{{$classroom->title}}</a>
+							<div class="country">{{$classroom->category->title}}</div>
 						</div>
 					</div>
 				</div>
@@ -68,7 +68,7 @@
                         <a class="nav-link" id="stats-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats" aria-selected="false">Stats</a>
                     </li>
                     <li class="nav-item text-center" style="width:33.3333%;">
-                        <a class="nav-link" id="leaderboard-tab" data-toggle="tab" href="#leaderboard" role="tab" aria-controls="leaderboard" aria-selected="false">Leaderboard</a>
+                        <a class="nav-link" id="leaderboard-tab" data-toggle="tab" href="#leaderboard" role="tab" aria-controls="leaderboard" aria-selected="false">Attendance</a>
                     </li>
 
 
@@ -77,7 +77,7 @@
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="container ">
 								<div class="row">
-										<div class=" col col-md-4 col-sm-12" >
+										<div class=" col col-md-6 col-sm-12" >
 												<div class="ui-block ">
 													<!-- W-Action -->
 													<a href="">
@@ -102,7 +102,7 @@
 
 
 											</div>
-											<div class=" col col-md-4 col-sm-12" >
+											<div class=" col col-md-6 col-sm-12" >
 												<div class="ui-block ">
 													<!-- W-Action -->
 													<a href="">
@@ -110,12 +110,12 @@
 
 														<div class="content">
 
-																<a href="#" class="  btn btn-control" data-toggle="modal" data-target="#create-lesson">
+																<a href="#" class="  btn btn-control" data-toggle="modal" data-target="#create-session">
 																	<svg class="olymp-plus-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
 																</a>
 
 																<div class="author-content">
-																	<a href="#" class="h5 author-name color-white">Add Lessons</a>
+																	<a href="#" class="h5 author-name color-white">Add sessions</a>
 
 																</div>
 
@@ -126,7 +126,7 @@
 												</div>
 
 											</div>
-											<div class=" col col-md-4 col-sm-12" >
+											{{-- <div class=" col col-md-4 col-sm-12" >
 												<div class="ui-block ">
 													<!-- W-Action -->
                                                     <a href="">
@@ -144,37 +144,101 @@
 													<!-- ... end W-Action -->
 												</div>
 
-											</div>
+											</div> --}}
                                         </div>
                                 </div>
 
                                 <div class="ui-block-title">
-                                    <h6 class="title text-center">Curriculum For This Course</h6>
+                                    <h6 class="title text-center">Curriculum For This classroom</h6>
                                 </div>
 
-                                <div class="ui-block-content cumm course-curriculum">
+                                <div class="ui-block-content cumm classroom-curriculum">
                                     <div class="row">
                                         <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div class="table-responsive table-middle no-shadow">
-                                                @foreach ($course->sections()->orderBy('order')->get() as $section)
+                                                @foreach ($classroom->classroomSections()->orderBy('order')->get() as $section)
                                                     <table class="table section-content-{{$section->id}}">
                                                         <thead>
                                                             <tr class="title-c">
-                                                                <th>{{$section->title}}</th>
-                                                                <th class="text-center" style="width:130px">{{$section->lessons()->count()}} Lessons</th>
+                                                                <th style="width:130px">{{$section->title}}</th>
+                                                                <th class="text-center" style="width:130px">{{$section->sessions()->count()}} sessions</th>
                                                                 <th class="text-center" style="width:130px"></th>
                                                                 <th class="text-center" style="width:130px"></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($section->lessons()->orderBy('order')->get() as $lesson)
-                                                                <tr class="lesson-content-{{$lesson->id}}">
-                                                                    <td>{{$lesson->title}}</td>
-                                                                    <td class="text-center" style="width:130px">{{$lesson->lessonType->title}}</td>
-                                                                    <td class="text-center" style="width:130px"><a href="#" data-toggle="modal" data-target="@if($lesson->lesson_type_id == 8) #edit-quiz-{{$lesson->id}} @else #edit-lesson-{{$lesson->id}} @endif"><i class="fas fa-edit" style="margin-right: 5px;"></i>Edit</a></td>
-                                                                    <td class="text-center" style="width:130px"><a href="#" class="delete-lesson" data-lesson-id="{{$lesson->id}}"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Delete</a></td>
+                                                            @foreach ($section->sessions()->orderBy('order')->get() as $session)
+                                                                <tr class="session-content-{{$session->id}}">
+                                                                    <td style="width:130px">{{$session->title}}</td>
+                                                                    <td class="text-center" >Date: {{$session->session_date}} From: {{$session->from}} To: {{$session->to}}</td>
+                                                                    <td class="text-center" style="width:130px"><a href="#" data-toggle="modal" data-target="#edit-session-{{$session->id}}"><i class="fas fa-edit" style="margin-right: 5px;"></i>Edit</a></td>
+                                                                    <td class="text-center" style="width:130px"><a href="#" class="delete-session" data-session-id="{{$session->id}}"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Delete</a></td>
                                                                 </tr>
-                                                                @include('english.coordinator.course.partials.lessons.edit_modal', ['lesson' => $lesson])
+                                                                <!-- Window-popup Edit  session -->
+                                                                <div class="modal fade" id="edit-session-{{$session->id}}" tabindex="-1" role="dialog" aria-labelledby="edit-session-{{$session->id}}" aria-hidden="true">
+                                                                    <div class="modal-dialog window-popup create-friend-group create-friend-group-1 " role="document">
+                                                                        <div class="modal-content">
+                                                                            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                                                                                <svg class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                                                                            </a>
+                                                                            <div class="modal-header">
+                                                                                <h6 class="title">Edit Session | {{$session->title}}</h6>
+                                                                            </div>
+
+                                                                            <div class="modal-body">
+                                                                                <form method="post" data-session-id="{{$session->id}}" class="edit_session_form" id="edit-session-content-{{$session->id}}" enctype="multipart/form-data">
+                                                                                    @csrf
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label">Session title</label>
+                                                                                        <input class="form-control" placeholder="Session title"  type="text" name="title"  value="{{$session->title}}" required>
+                                                                                    </div>
+
+
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label">Session Section</label>
+                                                                                        <select class="form-control category-select" name="classroom_section_id" required>
+                                                                                            @foreach ($classroom->classroomSections as $section)
+                                                                                                <option value="{{$section->id}}" @if($section->id == $session->classroom_section_id) selected @endif>{{$section->title}}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    </div>
+
+                                                                                    <div class="form-group  ">
+                                                                                        <label class="control-label">Session order in section</label>
+                                                                                        <input class="form-control" placeholder="Session Order" type="number" name="order" value="{{$session->order}}" min="1" required>
+                                                                                    </div>
+
+                                                                                    <div class="form-group  ">
+                                                                                        <label class="control-label">Session score when finished</label>
+                                                                                        <input class="form-control" placeholder="Session Score" type="number" name="score"value="{{$session->score}}"  min="1" required>
+                                                                                    </div>
+
+
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label">Session Date</label>
+                                                                                        <input class="form-control"  type="date" name="session_date" value="{{$session->session_date}}" required>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label">Session From</label>
+                                                                                        <input class="form-control"  type="time" name="from" value="{{$session->from}}" required>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <label class="control-label">Session To</label>
+                                                                                        <input class="form-control"  type="time" name="to" value="{{$session->to}}" required>
+                                                                                    </div>
+
+                                                                                    <button class="btn btn-blue btn-lg full-width">Edit Session</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                    <!-- Window-popup Edit  session -->
+
+
                                                             @endforeach
                                                         </tbody>
                                                     </table>
@@ -240,7 +304,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($course->users as $user)
+                                                            @foreach ($classroom->users as $user)
                                                                 <tr>
                                                                     <td>{{$user->name}}</td>
                                                                 </tr>
@@ -264,34 +328,58 @@
 													<div class="col col-lg-12 col-md-12 col-sm-12 col-12">
 															<div class="table-responsive table-middle no-shadow">
 																	<table class="table">
-																		<thead>
-																		  <tr class="title-c">
-																			<th>id</th>
-                                                                            <th>name</th>
-                                                                            <th>score</th>
+                                                                        @foreach ($classroom->classroomSections()->orderBy('order')->get() as $section)
+                                                                        <table class="table section-content-{{$section->id}}">
+                                                                            <thead>
+                                                                                <tr class="title-c">
+                                                                                    <th style="width:130px">{{$section->title}}</th>
+                                                                                    <th class="text-center" style="width:130px">{{$section->sessions()->count()}} sessions</th>
+                                                                                    <th class="text-center" style="width:130px"></th>
+                                                                                    <th class="text-center" style="width:130px"></th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach ($section->sessions()->orderBy('order')->get() as $session)
+                                                                                    <tr class="session-content-{{$session->id}}">
+                                                                                        <td style="width:130px">{{$session->title}}</td>
+                                                                                        <td class="text-center" >Date: {{$session->session_date}} From: {{$session->from}} To: {{$session->to}}</td>
+                                                                                        <td class="text-center" style="width:130px"><a href="#" data-toggle="modal" data-target="#attend-session-{{$session->id}}"><i class="fas fa-edit" style="margin-right: 5px;"></i>Edit</a></td>
+                                                                                        <td class="text-center" style="width:130px"><a href="#" class="delete-session" data-session-id="{{$session->id}}"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Delete</a></td>
+                                                                                    </tr>
+                                                                                    <!-- Window-popup Edit  session -->
+                                                                                    <div class="modal fade" id="attend-session-{{$session->id}}" tabindex="-1" role="dialog" aria-labelledby="attend-session-{{$session->id}}" aria-hidden="true">
+                                                                                        <div class="modal-dialog window-popup create-friend-group create-friend-group-1 " role="document">
+                                                                                            <div class="modal-content">
+                                                                                                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <svg class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                                                                                                </a>
+                                                                                                <div class="modal-header">
+                                                                                                    <h6 class="title">Edit Session | {{$session->title}}</h6>
+                                                                                                </div>
 
-																		  </tr>
-																		</thead>
-																		<tbody class="gridy">
-																			<tr>
-                                                                                <td>1</td>
-                                                                                <td>Name</td>
-                                                                                <td>1520</td>
+                                                                                                <div class="modal-body">
+                                                                                                    @foreach ($classroom->users as $user)
+                                                                                                        <span>{{$user->name}}</span>
+                                                                                                        <a href="#" class="attend-session" data-user-id="{{$user->id}}" data-session-id="{{$session->id}}"><i class="fas fa-circle" style="margin-right: 5px;"></i>
+                                                                                                            @if($user->sessions()->where('session_id', $session->id)->first()) Unattend
+                                                                                                            @else Attend
+                                                                                                            @endif
+                                                                                                        </a><br>
+                                                                                                    @endforeach
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
 
-																			</tr>
-																			<tr>
-                                                                                <td>2</td>
-                                                                                <td>Name</td>
-                                                                                <td>1520</td>
+                                                                                        <!-- Window-popup Edit  session -->
 
-                                                                            </tr>
-																		</tbody>
+
+                                                                                @endforeach
+                                                                            </tbody>
+                                                                        </table>
+                                                                    @endforeach
 
 																	  </table>
-
-
-
-
 																   </div>
 													</div>
 												</div>
@@ -356,240 +444,124 @@
 <!-- Window-popup Create section -->
 
 
-<!-- Window-popup Create  lesson -->
-<div class="modal fade" id="create-lesson" tabindex="-1" role="dialog" aria-labelledby="create-lesson" aria-hidden="true">
+<!-- Window-popup Create  session -->
+<div class="modal fade" id="create-session" tabindex="-1" role="dialog" aria-labelledby="create-session" aria-hidden="true">
     <div class="modal-dialog window-popup create-friend-group create-friend-group-1 " role="document">
         <div class="modal-content">
             <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
                 <svg class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
             </a>
             <div class="modal-header">
-                <h6 class="title">Create Lesson</h6>
+                <h6 class="title">Create session</h6>
             </div>
 
             <div class="modal-body">
-                <div class="form-group   is-focused">
-                    <div id="tabs">
-                        <ul class="white">
-                            @foreach ($lesson_types as $lesson_type)
-                                <li><a href="#tabs-{{$lesson_type->id}}">{{$lesson_type->title}}</a></li>
+                <form method="post" id="create_session_form" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label class="control-label">Session title</label>
+                        <input class="form-control" placeholder="Session title"  type="text" name="title"  required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Session Section</label>
+                        <select class="form-control category-select" name="classroom_section_id" required>
+                            @foreach ($classroom->classroomSections as $section)
+                                <option value="{{$section->id}}">{{$section->title}}</option>
                             @endforeach
-                        </ul>
-
-                        @include('english.coordinator.course.partials.lessons.text_form')
-                        @include('english.coordinator.course.partials.lessons.image_form')
-                        @include('english.coordinator.course.partials.lessons.text_and_image_form')
-                        @include('english.coordinator.course.partials.lessons.file_form')
-                        @include('english.coordinator.course.partials.lessons.external_content_form')
-                        @include('english.coordinator.course.partials.lessons.internal_upload_form')
-                        @include('english.coordinator.course.partials.lessons.scorm_form')
-
+                        </select>
                     </div>
-                </div>
+
+                    <div class="form-group  ">
+                        <label class="control-label">Session order in section</label>
+                        <input class="form-control" placeholder="Session Order" type="number" name="order" min="1" required>
+                    </div>
+
+                    <div class="form-group  ">
+                        <label class="control-label">Session score when finished</label>
+                        <input class="form-control" placeholder="Session Score" type="number" name="score" min="1" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Session Date</label>
+                        <input class="form-control"  type="date" name="session_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Session From</label>
+                        <input class="form-control"  type="time" name="from" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Session To</label>
+                        <input class="form-control"  type="time" name="to" required>
+                    </div>
+
+                    <button class="btn btn-blue btn-lg full-width">Create Session</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-	<!-- Window-popup Create  lesson -->
-
-	<!-- Window-popup Create  quiz -->
-<div class="modal fade" id="create-quiz" tabindex="-1" role="dialog" aria-labelledby="create-quiz" aria-hidden="true">
-    <div class="modal-dialog window-popup create-friend-group create-friend-group-1" role="document">
-        <div class="modal-content">
-            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-                <svg class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
-            </a>
-            <div class="modal-header">
-                <h6 class="title">Create Quiz</h6>
-            </div>
-            <div class="modal-body">
-                <div id="tabs">
-                    <ul class="white">
-                        <li><a href="#tabs-1">Main</a></li>
-                        {{-- <li><a href="#tabs-2">Quistions</a></li> --}}
-                    </ul>
-                    <div id="tabs-1">
-                            <form method="post" class="create_quiz_form" data-lesson-type-id="8" id="lesson-type-id-8">
-                                @csrf
-
-                                <div class="form-group">
-                                    <label class="control-label">Quiz Title</label>
-                                    <input class="form-control" placeholder="Quiz Title" name="title" type="text" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label">Quiz Description</label>
-                                    <textarea class="form-control" placeholder="Quiz Description" name="description" type="text" required></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label">Quiz Section</label>
-                                    <select class="form-control category-select" name="section_id" required>
-                                        @foreach ($course->sections as $section)
-                                            <option value="{{$section->id}}">{{$section->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label">Quiz Order in Section</label>
-                                    <input class="form-control" placeholder="Quiz Order" type="number" name="order" min="1" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label">Quiz Score When finished</label>
-                                    <input class="form-control" placeholder="Quiz Order" type="number" value="0" min="1" name="score" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label">Quiz Duration</label>
-                                    <input class="form-control" placeholder="minutes : seconds (ex: 30:00)" type="text"  name="time_limit" pattern="[0-9]{2}[:][0-9]{2}" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label">Quiz Passing Score</label>
-                                    <input class="form-control" placeholder="Quiz Passing Score for employee" type="number" value="0" min="1" name="passing_score" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label">Quiz Due Date</label>
-                                    <input class="form-control" placeholder="Quiz Due Date" type="datetime-local" name="due_date" required>
-                                </div>
-                                <button class="btn btn-blue btn-lg full-width">Create Quiz</button>
-                            </form>
+	<!-- Window-popup Create  session -->
 
 
 
-                    </div>
-                    {{-- <div id="tabs-2">
-                        <div id="cont">
-                            <div id="Question" data-question-number="0" class="form-group   is-focused Question clone d-none">
-                                <label class="control-label">add Question</label>
-                                <a href="#" class="btn btn-control removequ" data-toggle="tooltip" data-placement="top" title="Remove an Question">
-                                        <svg style="fill:#FF0000;" class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
-                                    </a>
 
-                                <input class="form-control" placeholder="" type="text" name="text" required>
-
-                                <div id="answerspace"  class="form-group label-floating  is-focused answer">
-                                    <label class="control-label">add answer</label>
-                                    <input class="form-control label-floating" placeholder="" type="text" name="text" required>
-                                    <a  href="#" class="btn btn-control removeanswer" data-toggle="tooltip" data-placement="top" title="Remove an ANSWER">
-                                        <svg style="fill:#FF0000;" class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
-                                    </a>
-                                </div>
-                                <a  href="#" class="btn btn-control addanswer" data-toggle="tooltip" data-placement="top" title="Add a new ANSWER">
-                                    <svg style="fill:#38A9FF;" class="olymp-plus-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                                </a>
-                            </div>
-
-
-                            <div data-question-number="1" class="form-group   is-focused Question clone" >
-                                <label class="control-label">add Question</label>
-                                <a href="#" class="btn btn-control removequ" data-toggle="tooltip" data-placement="top" title="Remove an Question">
-                                        <svg style="fill:#FF0000;" class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
-                                    </a>
-                                <input class="form-control" placeholder="" type="text" name="text" required>
-
-                                <div   class="form-group label-floating  is-focused answer">
-                                    <label class="control-label">add answer</label>
-
-                                    <input class="form-control label-floating" placeholder="" type="text" name="text" required>
-                                    <a href="#" class="btn btn-control removeanswer" data-toggle="tooltip" data-placement="top" title="Remove an ANSWER">
-                                        <svg style="fill:#FF0000;" class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
-                                    </a>
-                                </div>
-                                <a  href="#" class="btn btn-control addanswer" data-toggle="tooltip" data-placement="top" title="Add a new ANSWER">
-                                    <svg style="fill:#38A9FF;" class="olymp-plus-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
-                                </a>
-                            </div>
-                        </div>
-                        <a  class="btn  btn-secondary btn-lg full-width addquest" >add another</a>
-                        <a href="#" class="btn btn-blue btn-lg full-width">Create Quiz</a>
-
-                    </div> --}}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-	<!-- Window-popup Create  quiz -->
-
-
-
-<!-- Window-popup Edit course -->
-<div class="modal fade" id="edit-course" tabindex="-1" role="dialog" aria-labelledby="edit-course" aria-hidden="true">
+<!-- Window-popup Edit classroom -->
+<div class="modal fade" id="edit-classroom" tabindex="-1" role="dialog" aria-labelledby="edit-classroom" aria-hidden="true">
 	<div class="modal-dialog window-popup create-friend-group create-friend-group-1" role="document">
 		<div class="modal-content">
 			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
 				<svg class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
 			</a>
 			<div class="modal-header">
-				<h6 class="title">Edit Course</h6>
+				<h6 class="title">Edit classroom</h6>
 			</div>
 
 			<div class="modal-body">
-				<form method="post" id="edit_course_form" enctype="multipart/form-data">
+				<form method="post" id="edit_classroom_form" enctype="multipart/form-data">
 					@csrf
 					<div class="form-group">
-						<label class="control-label">Course title</label>
-						<input class="form-control" placeholder="Course title"  type="text" name="title" value="{{$course->title}}" required>
+						<label class="control-label">classroom title</label>
+						<input class="form-control" placeholder="classroom title"  type="text" name="title" value="{{$classroom->title}}" required>
 					</div>
 
 					<div class="form-group">
-						<label class="control-label">Course description</label>
-						<textarea class="form-control" placeholder="Course description"  type="text" name="description" required>{{$course->description}}</textarea>
+						<label class="control-label">classroom description</label>
+						<textarea class="form-control" placeholder="classroom description"  type="text" name="description" required>{{$classroom->description}}</textarea>
 					</div>
 
 					<div class="form-group">
-						<label class="control-label">Course Category</label>
+						<label class="control-label">classroom Category</label>
 						<select class="form-control category-select" name="category_id" required>
 							@foreach ($categories as $category)
-								<option value="{{$category->id}}" @if($course->category_id == $category->id) selected @endif>{{$category->title}}</option>
+								<option value="{{$category->id}}" @if($classroom->category_id == $category->id) selected @endif>{{$category->title}}</option>
 							@endforeach
 						</select>
 					</div>
 
+
 					<div class="form-group">
-						<label class="control-label">Course Type</label>
-						<select class="form-control" name="course_type_id" required>
-							@foreach ($course_types as $course_type)
-								<option value="{{$course_type->id}}" @if($course->course_type_id == $course_type->id) selected @endif>{{$course_type->type}}</option>
-							@endforeach
-						</select>
+                        <label class="control-label">classroom Location</label>
+                        <textarea class="form-control" placeholder="classroom description"  type="text" name="description" required>{{$classroom->location}}</textarea>
 					</div>
 
 					<div class="form-group">
-						<label class="control-label">Completion Criteria</label>
-						<select class="form-control category-select" name="completion_criteria_id" required>
-							@foreach ($completion_criterias as $completion_criteria)
-								<option value="{{$completion_criteria->id}}" @if($course->completion_criteria_id == $completion_criteria->id) selected @endif>{{$completion_criteria->type}}</option>
-							@endforeach
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label">Course Langage</label>
-						<select class="form-control" name="language" required>
-							<option value="English"@if($course->language == 'English') selected @endif>English</option>
-							<option value="Arabic"@if($course->language == 'Arabic') selected @endif>Arabic</option>
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label">Course Image</label>
-						<img src="{{asset('') . $course->image}}" alt="nature" style="width: 100%;">
+						<label class="control-label">classroom Image</label>
+						<img src="{{asset('') . $classroom->image}}" alt="nature" style="width: 100%;">
 						<input class="form-control" placeholder="image" type="file" name="image" accept="image/*" >
 					</div>
 
 					<div class="form-group">
-						<label class="control-label">Course Expiration Date</label>
-						<input class="form-control" placeholder="image" type="date" name="expired_at" value="{{substr($course->expired_at,0,10)}}" required>
+						<label class="control-label">classroom Expiration Date</label>
+						<input class="form-control" placeholder="image" type="date" name="expired_at" value="{{substr($classroom->expired_at,0,10)}}" required>
 					</div>
 
-					<button class="btn btn-blue btn-lg full-width">Edit Course</button>
+					<button class="btn btn-blue btn-lg full-width">Edit classroom</button>
 				</form>
 			</div>
 		</div>
@@ -615,12 +587,12 @@
                     <div id="tabs">
                         <ul class="white">
 
-                                <li><a href="#tabs-1">Main</a></li>
-                                <li><a href="#tabs-2">Survey Questions</a></li>
+                            <li><a href="#tabs-1">Main</a></li>
+                            <li><a href="#tabs-2">Survey Questions</a></li>
 
                         </ul>
                         <div id="tabs-1">
-                                <form method="post" class="create_lesson_form" data-lesson-type-id="1" id="" enctype="">
+                                <form method="post" class="create_survey_form" data-session-type-id="1" id="" enctype="">
                                     @csrf
 
                                     <div class="form-group ">
@@ -636,7 +608,7 @@
                                     <div class="form-group  ">
                                         <label class="control-label">survey Section</label>
                                         <select class="form-control category-select" name="section_id" required>
-                                            @foreach ($course->sections as $section)
+                                            @foreach ($classroom->classroomSections as $section)
                                                 <option value="{{$section->id}}">{{$section->title}}</option>
                                             @endforeach
                                         </select>
@@ -782,14 +754,14 @@
     $(document).ready(function() {
         $('.category-select').select2();
 
-        /*** Edit Course */
-        $('#edit_course_form').on('submit', function(event){
+        /*** Edit classroom */
+        $('#edit_classroom_form').on('submit', function(event){
             event.preventDefault();
-            var formData = new FormData(document.querySelector('#edit_course_form'));
+            var formData = new FormData(document.querySelector('#edit_classroom_form'));
             formData.append('_method', 'PUT');
 
             $.ajax({
-                url:"{{ route('en.coordinator.courses.update', [$course->slug]) }}",
+                url:"{{ route('en.coordinator.classrooms.update', [$classroom->slug]) }}",
                 method:"POST",
                 processData: false, // important
                 contentType: false, // important
@@ -810,14 +782,14 @@
                 }
             })
         });
-        /*** Edit Course */
+        /*** Edit classroom */
 
-        /*** Delete Course */
-        $('.delete-course').on('click', function(event){
+        /*** Delete classroom */
+        $('.delete-classroom').on('click', function(event){
             event.preventDefault();
             function deleteAjax(){
                 $.ajax({
-                    url:"{{ route('en.coordinator.courses.destroy', [$course->slug]) }}",
+                    url:"{{ route('en.coordinator.classrooms.destroy', [$classroom->slug]) }}",
                     method:"POST",
                     data:{'_method' : 'DELETE'},
                     dataType:'JSON',
@@ -835,15 +807,15 @@
 
             confirmDelete(deleteAjax);
         });
-        /*** Delete Course */
+        /*** Delete classroom */
 
         /*** Create Section */
         $('#create_section_form').on('submit', function(event){
             event.preventDefault();
             var formData = new FormData(document.querySelector('#create_section_form'));
-            formData.append('course_id', '{{$course->id}}');
+            formData.append('classroom_id', '{{$classroom->id}}');
             $.ajax({
-                url:"{{ route('en.coordinator.sections.store') }}",
+                url:"{{ route('en.coordinator.classroomsections.store') }}",
                 method:"POST",
                 processData: false, // important
                 contentType: false, // important
@@ -855,9 +827,10 @@
                 success:function(data)
                 {
                     $('#create-section').modal('hide');
-                    $('.course-curriculum').html(data.curriculum);
+                    // $('.classroom-curriculum').html(data.curriculum);
                     swalNormal(data.swal);
                     $(".overlay").toggleClass('d-none');
+                    location.reload();
                 },
                 error:function(data)
                 {
@@ -871,7 +844,7 @@
         $(document).on('click', '.delete-section', function(event){
             event.preventDefault();
             var section_id = $( this ).data( "section-id" );
-            var url = '{{ route("en.coordinator.sections.destroy", ":id") }}';
+            var url = '{{ route("en.coordinator.classroomsections.destroy", ":id") }}';
             url = url.replace(':id', section_id);
 
             function deleteAjax(){
@@ -900,7 +873,7 @@
         $(document).on('submit', '.edit_section_form', function(event){
             event.preventDefault();
             var section_id = $( this ).data( "section-id" );
-            var url = '{{ route("en.coordinator.sections.update", ":id") }}';
+            var url = '{{ route("en.coordinator.classroomsections.update", ":id") }}';
             url = url.replace(':id', section_id);
 
             var formData = new FormData(document.querySelector( '#edit-section-form-' + section_id ));
@@ -925,9 +898,11 @@
                     $(".modal-backdrop").remove();
                     $('body').removeClass('modal-open');
                     /******/
-                    $('.course-curriculum').html(data.curriculum);
+                    // $('.classroom-curriculum').html(data.curriculum);
                     swalNormal(data.swal);
                     $(".overlay").toggleClass('d-none');
+                    location.reload();
+
                 },
                 error:function(data)
                 {
@@ -938,15 +913,13 @@
         });
         /*** Edit Section */
 
-        /*** Create Lesson */
-        $('.create_lesson_form').on('submit', function(event){
+        /*** Create session */
+        $('#create_session_form').on('submit', function(event){
             event.preventDefault();
-            var lesson_type_id = $( this ).data('lesson-type-id');
-            var formData = new FormData(document.querySelector('#lesson-type-id-' + lesson_type_id));
-            formData.append('lesson_type_id', lesson_type_id);
+            var formData = new FormData(document.querySelector('#create_session_form'));
 
             $.ajax({
-                url:"{{ route('en.coordinator.lessons.store') }}",
+                url:"{{ route('en.coordinator.sessions.store') }}",
                 method:"POST",
                 processData: false, // important
                 contentType: false, // important
@@ -957,9 +930,10 @@
                 },
                 success:function(data)
                 {
-                    $('.course-curriculum').html(data.curriculum);
+                    // $('.classroom-curriculum').html(data.curriculum);
                     swalNormal(data.swal);
                     $(".overlay").toggleClass('d-none');
+                    location.reload();
                 },
                 error:function(data)
                 {
@@ -967,14 +941,14 @@
                 }
             })
         });
-        /*** Create Lesson */
+        /*** Create session */
 
-        /*** Delete Lesson */
-        $(document).on('click', '.delete-lesson', function(event){
+        /*** Delete session */
+        $(document).on('click', '.delete-session', function(event){
             event.preventDefault();
-            var lesson_id = $( this ).data( "lesson-id" );
-            var url = '{{ route("en.coordinator.lessons.destroy", ":id") }}';
-            url = url.replace(':id', lesson_id);
+            var session_id = $( this ).data( "session-id" );
+            var url = '{{ route("en.coordinator.sessions.destroy", ":id") }}';
+            url = url.replace(':id', session_id);
 
             function deleteAjax(){
                 $.ajax({
@@ -987,8 +961,8 @@
                     },
                     success:function(data)
                     {
-                        $('.course-curriculum').html(data.curriculum);
-                        $( '.lesson-content-' + data.lesson_id ).remove();
+                        $('.classroom-curriculum').html(data.curriculum);
+                        $( '.session-content-' + data.session_id ).remove();
                         $(".overlay").toggleClass('d-none');
                         swalNormal(data.swal);
                     }
@@ -997,16 +971,16 @@
 
             confirmDelete(deleteAjax);
         });
-        /*** Delete Lesson */
+        /*** Delete session */
 
-        /*** Edit Lesson */
-        $(document).on('submit', '.edit_lesson_form', function(event){
+        /*** Edit session */
+        $(document).on('submit', '.edit_session_form', function(event){
             event.preventDefault();
-            var lesson_id = $( this ).data( "lesson-id" );
-            var url = '{{ route("en.coordinator.lessons.update", ":id") }}';
-            url = url.replace(':id', lesson_id);
+            var session_id = $( this ).data( "session-id" );
+            var url = '{{ route("en.coordinator.sessions.update", ":id") }}';
+            url = url.replace(':id', session_id);
 
-            var formData = new FormData(document.querySelector( '#edit-lesson-content-' + lesson_id ));
+            var formData = new FormData(document.querySelector( '#edit-session-content-' + session_id ));
             formData.append('_method', 'PUT');
 
             $.ajax({
@@ -1021,14 +995,14 @@
                 },
                 success:function(data)
                 {
-                    $('#edit-lesson-' + data.lesson_id).modal('hide');
+                    $('#edit-session-' + data.session_id).modal('hide');
                     /*
                     ** Clean defects of modal hide not working proberly
                     */
                     $(".modal-backdrop").remove();
                     $('body').removeClass('modal-open');
                     /******/
-                    $('.course-curriculum').html(data.curriculum);
+                    // $('.classroom-curriculum').html(data.curriculum);
                     swalNormal(data.swal);
                     $(".overlay").toggleClass('d-none');
                     location.reload();
@@ -1040,14 +1014,43 @@
             })
 
         });
-        /*** Edit Lesson */
+        /*** Edit session */
+
+        /*** Attend Session */
+        $(document).on('click', '.attend-session', function(event)
+        {
+            event.preventDefault();
+            var session_id = $( this ).data('session-id');
+            var user_id = $( this ).data('user-id');
+            $.ajax({
+                url: "{{route('en.coordinator.sessions.attend')}}",
+                method: "POST",
+                data: {'session_id': session_id, 'user_id': user_id},
+                dataType: 'JSON',
+                beforeSend: function(){
+                    $(".overlay").toggleClass('d-none');
+                },
+                success:function(data)
+                {
+                    swalNormal(data.swal);
+                    $(".overlay").toggleClass('d-none');
+                    location.reload();
+                },
+                error:function(data)
+                {
+                    sweetAlertErrorResponse(data);
+                }
+            })
+
+        });
+        /*** Attend Session */
 
         /*** Create Quiz */
         $(document).on('submit', '.create_quiz_form', function(event){
             event.preventDefault();
-            var lesson_type_id = $( this ).data('lesson-type-id');
-            var formData = new FormData(document.querySelector('#lesson-type-id-' + lesson_type_id));
-            formData.append('lesson_type_id', lesson_type_id);
+            var session_type_id = $( this ).data('session-type-id');
+            var formData = new FormData(document.querySelector('#session-type-id-' + session_type_id));
+            formData.append('session_type_id', session_type_id);
 
             $.ajax({
                 url:"{{ route('en.coordinator.quizzes.store') }}",
@@ -1061,7 +1064,7 @@
                 },
                 success:function(data)
                 {
-                    $('.course-curriculum').html(data.curriculum);
+                    $('.classroom-curriculum').html(data.curriculum);
                     swalNormal(data.swal);
                     $(".overlay").toggleClass('d-none');
                 },
@@ -1076,11 +1079,11 @@
         /*** Edit Quiz */
         $(document).on('submit', '.edit_quiz_form', function(event){
             event.preventDefault();
-            var lesson_id = $( this ).data( "lesson-id" );
+            var session_id = $( this ).data( "session-id" );
             var url = '{{ route("en.coordinator.quizzes.update", ":id") }}';
-            url = url.replace(':id', lesson_id);
+            url = url.replace(':id', session_id);
 
-            var formData = new FormData(document.querySelector( '#edit-lesson-content-' + lesson_id ));
+            var formData = new FormData(document.querySelector( '#edit-session-content-' + session_id ));
             formData.append('_method', 'PUT');
 
             $.ajax({
@@ -1095,14 +1098,14 @@
                 },
                 success:function(data)
                 {
-                    $('#edit-lesson-' + data.lesson_id).modal('hide');
+                    $('#edit-session-' + data.session_id).modal('hide');
                     /*
                     ** Clean defects of modal hide not working proberly
                     */
                     $(".modal-backdrop").remove();
                     $('body').removeClass('modal-open');
                     /******/
-                    $('.course-curriculum').html(data.curriculum);
+                    $('.classroom-curriculum').html(data.curriculum);
                     swalNormal(data.swal);
                     $(".overlay").toggleClass('d-none');
                     location.reload();

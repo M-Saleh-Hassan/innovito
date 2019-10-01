@@ -63,6 +63,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Course');
     }
 
+    public function classrooms()
+    {
+        return $this->hasMany('App\Models\Classroom');
+    }
+
+    public function badges()
+    {
+        return $this->hasMany('App\Models\Badge');
+    }
+
     public function enrolledCourses()
     {
         return $this->belongsToMany('App\Models\Course', 'course_user', 'user_id', 'course_id')->withTimestamps();
@@ -72,5 +82,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Lesson', 'user_lessons', 'user_id', 'lesson_id')->withTimestamps();
     }
+
+    public function sessions()
+    {
+        return $this->belongsToMany('App\Models\Session', 'session_attendances', 'user_id', 'session_id')->withTimestamps();
+    }
+
 
 }

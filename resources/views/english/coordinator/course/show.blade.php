@@ -17,7 +17,7 @@
                             <div class="content">
                                 <h4 class="title">{{$course->title}}</h4>
                                 {{-- <span>THE BEST SOCIAL NETWORK THEME IS HERE!</span> --}}
-                                <a href="{{route('en.employee.courses.content', [$course->slug])}}" class="btn btn-bg-secondary btn-md">Enroll Now!</a>
+                                {{-- <a href="{{route('en.employee.courses.content', [$course->slug])}}" class="btn btn-bg-secondary btn-md">Enroll Now!</a> --}}
                             </div>
                         </div>
                         <!-- ... end W-Action -->

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\english\Coordinator;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Lesson;
 
 class QuizController extends Controller
 {
@@ -36,7 +37,22 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        $lesson = Lesson::create($request->all());
+        $modifiedRequestData = $request->all();
+        $modifiedRequestData['lesson_id'] = $lesson->id;
+        $modifiedRequestData['quiz_title'] = $request->title;
+        Quiz::create($modifiedRequestData);
+
+        return response()->json([
+            'swal' => [
+                'status' => 1,
+                'type' => 'success',
+                'title' => 'Success',
+                'message' => 'Quiz Created Susscessfully!',
+            ],
+            'curriculum' => view('english.coordinator.course.partials.curriculum')->with('course', $lesson->section->course)->render(),
+        ]);
+
     }
 
     /**
@@ -68,9 +84,26 @@ class QuizController extends Controller
      * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Quiz $quiz)
+    public function update(Request $request, Lesson $quiz)
     {
-        //
+        rearrangeOrders($request->order, $quiz, 'Lesson', 'section');
+
+        Lesson::find($quiz->id)->update($request->all());
+
+        $modifiedRequestData = $request->only(['description', 'passing_score', 'time_limit', 'due_date']);
+        $modifiedRequestData['quiz_title'] = $request->title;
+        Quiz::where('lesson_id', $quiz->id)->update($modifiedRequestData);
+
+        return response()->json([
+            'swal' => [
+                'status' => 1,
+                'type' => 'success',
+                'title' => 'Success',
+                'message' => 'Quiz Updated Susscessfully!',
+            ],
+            'curriculum' => view('english.coordinator.course.partials.curriculum')->with('course', $quiz->section->course)->render(),
+            'lesson_id' => $quiz->id,
+        ]);
     }
 
     /**

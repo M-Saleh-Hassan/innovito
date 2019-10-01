@@ -35,6 +35,11 @@ class Lesson extends Model
         return $this->hasOne('App\Models\Content');
     }
 
+    public function quiz()
+    {
+        return $this->hasOne('App\Models\Quiz');
+    }
+
     public function users()
     {
         return $this->belongsToMany('App\User', 'user_lessons', 'lesson_id', 'user_id')->withTimestamps();
@@ -63,6 +68,9 @@ class Lesson extends Model
                 break;
             case 7:
                 $view = view('english.employee.course.partials.lesson.text')->with('lesson', $this)->render();
+                break;
+            case 8:
+                $view = view('english.employee.course.partials.lesson.quiz')->with('lesson', $this)->render();
                 break;
             default:
                 $view = '';

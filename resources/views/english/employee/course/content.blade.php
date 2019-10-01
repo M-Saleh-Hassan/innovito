@@ -16,7 +16,7 @@
                         <h3 class="accordion-header">{{$section->title}}</h3>
                         <div>
                             <ul class="lessons">
-                                @foreach ($section->lessons as $lesson)
+                                @foreach ($section->lessons()->orderBy('order')->get() as $lesson)
                                     @if ($course->getLastSeenLessonId() == $lesson->id)
                                         <a class="lesson-id now" data-lesson-id="{{$lesson->id}}" onclick="event.preventDefault()"><li><i class="fas fa-play-circle"></i>{{$lesson->title}}</li></a>
                                     @elseif ($lesson->status)
@@ -29,7 +29,7 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="ui-block margin-top" oncopy="return false" oncut="return false" onpaste="return false">
+                {{-- <div class="ui-block margin-top" oncopy="return false" oncut="return false" onpaste="return false">
 					<div class="ui-block-title">
 						<h6 class="title">timer</h6>
 					</div>
@@ -38,17 +38,17 @@
 							<div class="col col-lg-12 col-md-12 col-sm-12 col-12 text-center ">
 								<span id="timer">45</span>
 							</div>
-							
+
 						</div>
 					</div>
-				</div>
+				</div> --}}
 
             </div>
         </div>
 
         <div class="col-lg-8 col-md-12  order-lg-1 order-md-12 header-h lesson-content">
             {!! $lesson_text !!}
-            <div class="ui-block">
+            {{-- <div class="ui-block">
 						<div class="ui-block-title">
 							<h6 class="title">Quiz in ............</h6>
 						</div>
@@ -61,43 +61,43 @@
 												<br>
 												<br>
 											    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-									
+
 											</li>
 											<li>
 												<span class="title">who ate the cheese! </span>
 												<br>
 												<br>
-												
+
 												  <div class="form-check" style="margin-bottom: 10px; ">
 													<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" style="width: auto;margin-top:0; " >
 													<label class="form-check-label" for="exampleRadios1">
-														fareed 
+														fareed
 													</label>
 												  </div>
-												  
+
 												  <div class="form-check" style="margin-bottom: 10px; ">
 														<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" style="width: auto;margin-top:0; " >
 														<label class="form-check-label" for="exampleRadios1">
 																saleh
 														</label>
 													  </div>
-												 
-									
+
+
 											</li>
-											
+
 										</ul>
 								</div>
-								
+
 							</div>
 						</div>
-					</div>
-			
+					</div> --}}
+
             <div class="lesson-footer ">
-                <button class="btn btn-primary btn-md-2 navsh "><i class="fas fa-arrow-left"></i> prev</button>
+                {{-- <button class="btn btn-primary btn-md-2 navsh "><i class="fas fa-arrow-left"></i> prev</button> --}}
 
                 <button class="btn btn-primary btn-md-2 lesson-check"><i class="fas fa-check-circle"></i> done</button>
 
-                <button class="btn btn-primary btn-md-2 navsh nomore">next <i class="fas fa-arrow-right"></i></button>
+                {{-- <button class="btn btn-primary btn-md-2 navsh nomore">next <i class="fas fa-arrow-right"></i></button> --}}
             </div>
 
         </div>
@@ -113,6 +113,7 @@
 @section('script')
 <script>
     $(document).ready(function() {
+        $('.accordion-header').trigger('click')
         const player = new Plyr('#player');
         /*** Filter Lessons */
         $(document).on('click', '.lesson-id', function () {
@@ -129,6 +130,9 @@
                 {
                     $( '.ui-block' ).not('.map').remove();
                     $(' .lesson-content ').prepend(data.lesson);
+                    if(data.show_done) $('.lesson-check').show();
+                    else $('.lesson-check').hide();
+                    console.log(data.show_done);
                     $(".overlay").toggleClass('d-none');
                 },
             });
@@ -149,9 +153,10 @@
                 },
                 success:function(data)
                 {
-                    $( '.ui-block' ).not( '.map' ).remove();
-                    $(' .lesson-content ').prepend(data.lesson);
+                    // $( '.ui-block' ).not( '.map' ).remove();
+                    // $(' .lesson-content ').prepend(data.lesson);
                     $(".overlay").toggleClass('d-none');
+                    location.reload();
                 },
             });
         });
@@ -186,9 +191,9 @@
 		if( minutes == "00" && seconds <= "00" ){
 			// window.location.replace("http://www.google.com");
 		}
-		
+
 	}, 1000);
-	
+
 }
 
 jQuery(function ($) {
@@ -196,9 +201,9 @@ jQuery(function ($) {
     var Minutes = 60 * mins ,
         display = $('#timer');
 	startTimer(Minutes, display);
-	
+
 });
-	
+
 </script>
 
 @endsection

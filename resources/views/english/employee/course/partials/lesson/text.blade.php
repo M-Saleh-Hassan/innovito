@@ -1,6 +1,6 @@
 <div class="ui-block">
     <div class="ui-block-title">
-        <h6 class="title">text</h6>
+        <h6 class="title">{{$lesson->title}}</h6>
     </div>
     <div class="ui-block-content">
         <div class="row">

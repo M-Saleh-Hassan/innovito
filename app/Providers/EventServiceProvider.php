@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\NewClassroomCreatedEvent;
 use App\Events\NewCourseCreatedEvent;
 use App\Listeners\AddEmployeesToCourseListener;
+use App\Listeners\AddEmployeeToClassroomListener;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         NewCourseCreatedEvent::Class => [
             AddEmployeesToCourseListener::class,
+        ],
+        NewClassroomCreatedEvent::Class => [
+            AddEmployeeToClassroomListener::class,
         ],
     ];
 

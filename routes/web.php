@@ -111,6 +111,18 @@ Route::group(['middleware' => ['checkAuth']], function ()
 
         /** Badges */
         Route::resource('badges', 'BadgeController');
+
+        /** ClassRooms */
+        Route::resource('classrooms', 'ClassroomController');
+        Route::post('classrooms/filter', 'ClassroomController@filter')->name('classrooms.filter');
+
+        /** Sessions */
+        Route::resource('sessions', 'SessionController');
+        Route::post('sessions/attend', 'SessionController@attend')->name('sessions.attend');
+
+        /** Sections */
+        Route::resource('classroomsections', 'ClassroomSectionController');
+
     });
 
     /**** Employee Part */
@@ -129,6 +141,9 @@ Route::group(['middleware' => ['checkAuth']], function ()
         Route::resource('lessons', 'LessonController');
         Route::post('lessons/filter', 'LessonController@filter')->name('lessons.filter');
         Route::post('lessons/check', 'LessonController@check')->name('lessons.check');
+
+        /** Classrooms */
+        Route::resource('classrooms', 'ClassroomController');
 
     });
 

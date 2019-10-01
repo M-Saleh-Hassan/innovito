@@ -13,10 +13,8 @@ My Badges
         <div class="row">
             <div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
                 <div class="main-header-content">
-                    <h1>Collect your Badges!</h1>
-                    <p>Welcome to your badge collection! Here you’ll find all the badges you can unlock to show on your profile.
-     Learn how to achive the goal to adquire them and collect them all. Some have leveled tiers and other don’t.
-     You can challenge your friends to see who gets more and let the fun begin!</p>
+                    <h1>Make your Badges!</h1>
+                    <p>Welcome to your badge collection! Here you’ll find all the badges you can Create.</p>
                 </div>
             </div>
         </div>
@@ -40,7 +38,7 @@ My Badges
                 <div class="content">
 
                     <a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-badge">
-                        <svg class="olymp-plus-icon"><use xlink:href="http://127.0.0.1:8000/assets/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
+                        <svg class="olymp-plus-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-plus-icon"></use></svg>
                     </a>
 
                     <div class="author-content">
@@ -53,131 +51,77 @@ My Badges
 
             <!-- ... end Course Item -->
         </div>
-    <div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-
-            <div class="ui-block" data-mh="friend-groups-item" >
-
-                    <!-- Friend Item -->
-
-                    <div class="friend-item friend-groups">
-
-                        <div class="friend-item-content">
-
-                            <div class="friend-avatar">
-                                <div class="author-thumb">
-                                    <img class="centeeeer" style="width: 100%;" src="{{asset('assets')}}/img/badge1.png" alt="Olympus">
-                                </div>
-                                <div class="author-content">
-                                    <a href="#" class="h5 author-name">badge name</a>
-                                    <div class="date">25 april 2019</div>
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-                    </div>
-
-                    <!-- ... end Friend Item -->
-            </div>
-
-    </div>
-
-    <div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-
-            <div class="ui-block" data-mh="friend-groups-item" >
-
-                    <!-- Friend Item -->
-
-                    <div class="friend-item friend-groups ">
-
-                        <div class="friend-item-content">
-
-                            <div class="friend-avatar">
-                                <div class="author-thumb">
-                                    <img class="centeeeer" style="width: 100%;" src="{{asset('assets')}}/img/badge2.png" alt="Olympus">
-                                </div>
-                                <div class="author-content">
-                                    <a href="#" class="h5 author-name">badge name</a>
-                                    <div class="date">25 april 2019</div>
+        @foreach (Auth::user()->badges as $badge)
+            <div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="ui-block" data-mh="friend-groups-item" >
+                        <!-- Friend Item -->
+                        <div class="friend-item friend-groups">
+                            <div class="friend-item-content">
+                                <div class="friend-avatar">
+                                    <div class="author-thumb">
+                                        <img class="centeeeer" style="width: 100%;" src="{{asset('') . $badge->image}}" alt="Olympus">
+                                    </div>
+                                    <div class="author-content">
+                                        <a href="#" class="h5 author-name" data-toggle="modal" data-target="#edit-badge-{{$badge->id}}">
+                                            {{$badge->title}}
+                                        </a>
+                                        {{-- <div class="date">25 april 2019</div> --}}
+                                    </div>
                                 </div>
                             </div>
-
-
-
-
                         </div>
-                    </div>
-
-                    <!-- ... end Friend Item -->
+                        <!-- ... end Friend Item -->
+                </div>
             </div>
 
-    </div>
-
-    <div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-
-            <div class="ui-block" data-mh="friend-groups-item" >
-
-                    <!-- Friend Item -->
-
-                    <div class="friend-item friend-groups unearned">
-
-                        <div class="friend-item-content">
-
-                            <div class="friend-avatar">
-                                <div class="author-thumb">
-                                    <img class="centeeeer" style="width: 100%;" src="{{asset('assets')}}/img/badge3.png" alt="Olympus">
-                                </div>
-                                <div class="author-content">
-                                    <a href="#" class="h5 author-name">badge name</a>
-                                    <div class="date">25 april 2019</div>
-                                </div>
+            <div class="modal fade" id="edit-badge-{{$badge->id}}" tabindex="-1" role="dialog" aria-labelledby="edit-badge-{{$badge->id}}" aria-hidden="true">
+                <div class="modal-dialog window-popup create-friend-group create-friend-group-1" role="document">
+                        <div class="modal-content">
+                            <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                                <svg class="olymp-close-icon"><use xlink:href="{{asset('assets')}}/svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+                            </a>
+                            <div class="modal-header">
+                                <h6 class="title">Edit Badge | {{$badge->title}}</h6>
                             </div>
 
+                            <div class="modal-body">
+                                <form method="post" class="edit_badge_form" id="edit-badge-form-{{$badge->id}}" enctype="multipart/form-data" data-badge-id="{{$badge->id}}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label class="control-label">Badge Title</label>
+                                        <input class="form-control" placeholder="Course Title"  type="text" name="title"  value="{{$badge->title}}" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Badge Description</label>
+                                        <textarea class="form-control" placeholder="Badge Description"  type="text" name="description" value="{{$badge->description}}" required></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Badge Type</label>
+                                        <select class="form-control" name="badge_type_id" required>
+                                            @foreach ($badge_types as $badge_type)
+                                                <option value="{{$badge_type->id}}" @if($badge->badge_type_id == $badge_type->id) selected @endif>{{$badge_type->type}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Badge Image</label>
+                                        <input class="form-control" placeholder="image" type="file" name="image" accept="image/*">
+                                    </div>
 
 
-
-                        </div>
-                    </div>
-
-                    <!-- ... end Friend Item -->
-            </div>
-
-    </div>
-
-    <div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-
-            <div class="ui-block" data-mh="friend-groups-item " >
-
-                    <!-- Friend Item -->
-
-                    <div class="friend-item friend-groups unearned ">
-
-                        <div class="friend-item-content">
-
-                            <div class="friend-avatar">
-                                <div class="author-thumb">
-                                    <img  class="centeeeer" style="width: 100%;" src="{{asset('assets')}}/img/badge4.png" alt="Olympus">
-                                </div>
-                                <div class="author-content">
-                                    <a href="#" class="h5 author-name">badge name</a>
-                                    <div class="date">25 april 2019</div>
-                                </div>
+                                    <button  class="btn btn-blue btn-lg full-width">Edit Badge</button>
+                                    <button  class="btn btn-red btn-lg full-width delete-badge" data-badge-id="{{$badge->id}}" style="background-color: red">Delete Badge</button>
+                                </form>
                             </div>
-
-
-
-
                         </div>
                     </div>
-
-                    <!-- ... end Friend Item -->
             </div>
 
+        @endforeach
     </div>
-
-</div>
 </div>
 
 <!-- Window-popup Create  badge -->
@@ -192,19 +136,34 @@ My Badges
 					</div>
 
 					<div class="modal-body">
-                        <form method="post" id="add_course_form" enctype="multipart/form-data">
+                        <form method="post" id="create_badge_form" enctype="multipart/form-data" >
                             @csrf
                             <div class="form-group">
-                                <label class="control-label">Badge title</label>
-                                <input class="form-control" placeholder="Course title"  type="text" name="title"  required>
+                                <label class="control-label">Badge Title</label>
+                                <input class="form-control" placeholder="Course Title"  type="text" name="title"  required>
                             </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Badge Description</label>
+                                <textarea class="form-control" placeholder="Badge Description"  type="text" name="description" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Badge Type</label>
+                                <select class="form-control" name="badge_type_id" required>
+                                    @foreach ($badge_types as $badge_type)
+                                        <option value="{{$badge_type->id}}">{{$badge_type->type}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="form-group">
                                 <label class="control-label">Badge Image</label>
                                 <input class="form-control" placeholder="image" type="file" name="image" accept="image/*" required>
                             </div>
 
-                        
-                            <button class="btn btn-blue btn-lg full-width">Create Badge</button>
+
+                            <button  class="btn btn-blue btn-lg full-width">Create Badge</button>
                         </form>
 					</div>
 				</div>
@@ -219,5 +178,99 @@ My Badges
 
 @section('script')
 <script>
+    $(document).ready(function() {
+        /*** Create Badge */
+        $('#create_badge_form').on('submit', function(event){
+            event.preventDefault();
+            var formData = new FormData(document.querySelector('#create_badge_form'));
+            $.ajax({
+                url:"{{ route('en.coordinator.badges.store') }}",
+                method:"POST",
+                processData: false, // important
+                contentType: false, // important
+                data:formData,
+                dataType:'JSON',
+                beforeSend: function(){
+                    $(".overlay").toggleClass('hidden');
+                },
+                success:function(data)
+                {
+                    swalNormal(data.swal);
+                    $(".overlay").toggleClass('hidden');
+                    window.location.replace(data.route);
+                },
+                error:function(data)
+                {
+                    sweetAlertErrorResponse(data);
+                }
+            })
+        });
+        /*** Create Badge */
+
+        /*** Edit Badge */
+        $(document).on('submit', '.edit_badge_form', function(event){
+            event.preventDefault();
+            var badge_id = $( this ).data( "badge-id" );
+            var url = '{{ route("en.coordinator.badges.update", ":id") }}';
+            url = url.replace(':id', badge_id);
+
+            var formData = new FormData(document.querySelector( '#edit-badge-form-' + badge_id ));
+            formData.append('_method', 'PUT');
+
+            $.ajax({
+                url:url,
+                method:"POST",
+                processData: false, // important
+                contentType: false, // important
+                data:formData,
+                dataType:'JSON',
+                beforeSend: function(){
+                    $(".overlay").toggleClass('d-none');
+                },
+                success:function(data)
+                {
+                    swalNormal(data.swal);
+                    $(".overlay").toggleClass('hidden');
+                    window.location.replace(data.route);
+                },
+                error:function(data)
+                {
+                    sweetAlertErrorResponse(data);
+                }
+            })
+
+        });
+        /*** Edit Badge */
+
+        /*** Delete Badge */
+        $(document).on('click', '.delete-badge', function(event){
+            event.preventDefault();
+            var badge_id = $( this ).data( "badge-id" );
+            var url = '{{ route("en.coordinator.badges.destroy", ":id") }}';
+            url = url.replace(':id', badge_id);
+
+            function deleteAjax(){
+                $.ajax({
+                    url: url,
+                    method:"POST",
+                    data:{'_method' : 'DELETE'},
+                    dataType:'JSON',
+                    beforeSend: function(){
+                        $(".overlay").toggleClass('d-none');
+                    },
+                    success:function(data)
+                    {
+                        swalNormal(data.swal);
+                        $(".overlay").toggleClass('hidden');
+                        window.location.replace(data.route);
+                    }
+                })
+            }
+
+            confirmDelete(deleteAjax);
+        });
+        /*** Delete Badge */
+
+    });
 </script>
 @endsection

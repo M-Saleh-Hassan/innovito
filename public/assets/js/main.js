@@ -217,8 +217,8 @@ var CRUMINA = {};
 		$('.header-menu').removeClass('open');
 		return false
 	});
-	
-	
+
+
 	$(".comments-shared .comments-show").on('click', function () {
 		$(this).closest('.ui-block').children('.comments-list').toggleClass('d-block');
 		$(this).closest('.ui-block').children('.comment-form').toggleClass('d-block');
@@ -231,14 +231,14 @@ var CRUMINA = {};
 	$(".ui-block .more-comments").click(
 		function() {
 		if($(".ui-block .comments-list .hiden").hasClass('d-none')){
-			$(this).parent().find("  .hiden").removeClass( "d-none" ).addClass("d-block");	
+			$(this).parent().find("  .hiden").removeClass( "d-none" ).addClass("d-block");
 			$(this).parent().find(".more-comments").text('View less comments');
-				   
+
 		} else {
-			
+
 			$(this).parent().find("  .hiden").removeClass( "d-block" ).addClass("d-none ");
 			$(this).parent().find(".more-comments").text('View more comments');
-		 
+
 			  }
 		}
 	  );
@@ -456,26 +456,26 @@ $.fn.togglepanels = function(){
   $( "#create-quiz #tabs" ).tabs();
   $("#accordion").togglepanels();
   $( "#create-survey #tabs" ).tabs();
-
+  $(".tabs").tabs();
 
 // ================================================
 // ================================================
-// =====Duplicating and remove divs of quiz========
+// ===== Duplicating and remove divs of quiz ======
 // ================================================
 // ================================================
 
 
-$(document).ready(function(){ 
-	
+$(document).ready(function(){
 
-	
+
+
 	$(".addquest").click(function(){
 		$("#Question" ).clone().appendTo("#cont");
 		$(".Question:last-child").removeClass("d-none");
 		$('.Question:last-child').removeAttr('id');
 		$('.Question:last-child #answerspace').removeAttr('id');
 
-	});	
+	});
 	  $(document).on('click', '.addanswer', function(){
 		var i = $(this).closest(".Question").index()+1;
 		$("#answerspace").clone().appendTo($(".Question:nth-child("+i+")" ));
@@ -492,93 +492,93 @@ $(document).ready(function(){
 		$(this).closest(".Question").remove();
 	});
 
- });
+});
 
 // ================================================
 // ================================================
-// ==========control survey quistions =============
+// ========== Control survey questions ============
 // ================================================
 // ================================================
 
 
-$(document).ready(function(){ 
-	
+$(document).ready(function(){
+
 	$(document).on('change', '#s-type', function(){
 		var type = $("#s-type option:selected").val();
-		
+
 		if(type == "text"){
-			
+
 			$("#text" ).clone().appendTo($("#s-cont"));
 			$(".text:last-child").removeClass("d-none");
 			$('.text:last-child').removeAttr('id');
 			$('.text:last-child #answerspace').removeAttr('id');
-		
+
 			$('#s-type option[value="free"]').attr("selected",true);
 			$('#s-type option[value="free"]').attr("selected",false);
-		
-			
-		
-		}	
+
+
+
+		}
 		else if (type == "number"){
 			$("#number" ).clone().appendTo($("#s-cont"));
 			$(".number:last-child").removeClass("d-none");
 			$('.number:last-child').removeAttr('id');
 			$('.number:last-child #answerspace').removeAttr('id');
-		
+
 			$('#s-type option[value="free"]').attr("selected",true);
 			$('#s-type option[value="free"]').attr("selected",false);
-		
-	
+
+
 		}
 		else if (type == "radio"){
 			$("#radio" ).clone().appendTo($("#s-cont"));
 			$(".radio:last-child").removeClass("d-none");
 			$('.radio:last-child').removeAttr('id');
 			$('.radio:last-child #answerspace').removeAttr('id');
-		
+
 			$('#s-type option[value="free"]').attr("selected",true);
 			$('#s-type option[value="free"]').attr("selected",false);
-		
-	
+
+
 		}
 		else if (type == "checkbox"){
 			$("#checkbox" ).clone().appendTo($("#s-cont"));
 			$(".checkbox:last-child").removeClass("d-none");
 			$('.checkbox:last-child').removeAttr('id');
 			$('.checkbox:last-child #answerspace').removeAttr('id');
-		
+
 			$('#s-type option[value="free"]').attr("selected",true);
 			$('#s-type option[value="free"]').attr("selected",false);
-		
-	
+
+
 		}
 		else if (type == "select"){
 			$("#select" ).clone().appendTo($("#s-cont"));
 			$(".select:last-child").removeClass("d-none");
 			$('.select:last-child').removeAttr('id');
 			$('.select:last-child #answerspace').removeAttr('id');
-		
+
 			$('#s-type option[value="free"]').attr("selected",true);
 			$('#s-type option[value="free"]').attr("selected",false);
-		
-	
+
+
 		}
-		
+
 	})
 })
 
-	
 
 
 
-	
+
+
 	// $(".addquest").click(function(){
 	// 	$("#Question" ).clone().appendTo("#cont");
 	// 	$(".Question:last-child").removeClass("d-none");
 	// 	$('.Question:last-child').removeAttr('id');
 	// 	$('.Question:last-child #answerspace').removeAttr('id');
 
-	// });	
+	// });
 	//   $(document).on('click', '.addanswer', function(){
 	// 	var i = $(this).closest(".Question").index()+1;
 	// 	$("#answerspace").clone().appendTo($(".Question:nth-child("+i+")" ));
@@ -597,6 +597,5 @@ $(document).ready(function(){
 
 
 
-	
-	
-	
+
+

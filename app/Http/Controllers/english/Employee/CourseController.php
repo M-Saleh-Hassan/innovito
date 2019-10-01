@@ -6,6 +6,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Lesson;
 use Auth;
 
 class CourseController extends Controller
@@ -105,7 +106,7 @@ class CourseController extends Controller
 
     public function content(Course $course)
     {
-        $lesson = $course->sections()->first()->lessons()->first();
+        $lesson = Lesson::find($course->getLastSeenLessonId());
 
         return view('english.employee.course.content')
         ->with('course', $course)
